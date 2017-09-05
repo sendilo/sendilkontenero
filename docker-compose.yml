@@ -1,0 +1,43 @@
+version: '2'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./_certs/:/etc/nginx/certs:ro
+      - ./_logs/:/var/log/nginx
+      - ./_proxy/vhost.d:/etc/nginx/vhost.d
+      - /usr/share/nginx/html
+    environment:
+      - DEFAULT_HOST=${SENDILO_HOSTNAME}
+  proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes:
+      - ./_certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - nginx-proxy
+  sendilo:
+    build: .
+    restart: always
+    hostname: sendilo
+    ports:
+    - "443"
+    volumes:
+    - ./_data:/solid/data
+    - ./_certs:/solid/certs:ro
+    - ./_db:/solid/db
+    - ./config.json:/solid/run/config.json:ro
+    environment:
+    - VIRTUAL_HOST=${SENDILO_HOSTNAME}
+    - VIRTUAL_PROTO=https
+    - VIRTUAL_PORT=443
+    - LETSENCRYPT_HOST=${SENDILO_HOSTNAME}
+    - LETSENCRYPT_EMAIL=${SENDILO_EMAIL}
+    - DEBUG=solid:*,sendilo:*
+    command: ["/solid/run/bin/sendilo", "start", "--verbose" ]

@@ -1,0 +1,23 @@
+{
+  "auth": "oidc",
+  "multiuser": false,
+  "port": "443",
+  "serverUri": "https://example.com",
+  "sslKey": "/solid/certs/example.com.key",
+  "sslCert": "/solid/certs/example.com.crt",
+  "email": {
+    "host": "smtp.example.com",
+    "port": "587",
+    "secure" : false,
+    "auth": {
+      "user": "info@example.com",
+      "pass": "examplePassword"
+    }
+  },
+  "corsProxy": "/proxy",
+  "webid": true,
+  "mount": "/",
+  "root": "/solid/data",
+  "db-path": "/solid/db",
+}
+
