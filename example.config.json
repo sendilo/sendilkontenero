@@ -18,6 +18,6 @@
   "webid": true,
   "mount": "/",
   "root": "/solid/data",
-  "db-path": "/solid/db",
+  "db-path": "/solid/db"
 }
 
