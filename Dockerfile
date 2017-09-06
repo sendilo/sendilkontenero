@@ -45,7 +45,7 @@ RUN mkdir -p /solid/certs /solid/data /solid/db /solid/run/ \
  && cd /solid \
  && git clone -b 'master' https://github.com/sendilo/sendilo run \
  && cd /solid/run \
- && npm update
+ && npm install
 
 WORKDIR /solid/run/
 
