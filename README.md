@@ -5,7 +5,7 @@ docker file and composer for sendilo
 ## contains
 
  * docker-compose.yml with [nginx proxy](https://github.com/jwilder/nginx-proxy) and [let's encrypt companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion)
- * sendilo - [node-solid-server](https://github.com/solid/node-solid-server) `release/v4.0.0` with [http-rdf-formats-proxy](https://github.com/rdf-ext/http-rdf-formats-proxy) and [EyeServer](https://github.com/RubenVerborgh/EyeServer) (incl. [EYE reasoner](http://eulersharp.sourceforge.net/)) middlewares
+ * [sendilo](https://github.com/sendilo/sendilo) - [node-solid-server](https://github.com/solid/node-solid-server) `release/v4.0.0` with [http-rdf-formats-proxy](https://github.com/rdf-ext/http-rdf-formats-proxy) and [EyeServer](https://github.com/RubenVerborgh/EyeServer) (incl. [EYE reasoner](http://eulersharp.sourceforge.net/)) middlewares
 
 ## usage
 
