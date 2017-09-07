@@ -18,6 +18,8 @@
   "webid": true,
   "mount": "/",
   "root": "/solid/data",
-  "db-path": "/solid/db"
+  "dbPath": "/solid/db",
+  "configPath": "/solid/config",
+  "acceptCertificateHeader": true
 }
 

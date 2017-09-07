@@ -10,6 +10,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./_certs/:/etc/nginx/certs:ro
       - ./_logs/:/var/log/nginx
+      - ./_proxy/proxy.conf:/etc/nginx/proxy.conf
       - ./_proxy/vhost.d:/etc/nginx/vhost.d
       - /usr/share/nginx/html
     environment:
@@ -29,8 +30,9 @@ services:
     ports:
     - "443"
     volumes:
-    - ./_data:/solid/data
     - ./_certs:/solid/certs:ro
+    - ./_data:/solid/data
+    - ./_config:/solid/config
     - ./_db:/solid/db
     - ./config.json:/solid/run/config.json:ro
     environment:
