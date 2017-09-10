@@ -2,6 +2,7 @@ version: '2'
 services:
   haproxy:
     image: haproxy:alpine
+    restart: always
     hostname: haproxy
     ports:
       - "80:80"
@@ -12,6 +13,8 @@ services:
       - ./config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
   haproxy-syslog:
     image: outstand/syslog-ng-stdout:latest
+    restart: always
+    hostname: haproxy-syslog
   http:
     image: nginx:alpine
     restart: always
