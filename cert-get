@@ -8,7 +8,7 @@ if [ -z "$LETSENCRYPT_EMAIL" ] || [ -z "$LETSENCRYPT_DOMAIN" ] ; then
 fi
 
 DRYRUN=--dry-run
-if [ "$DRYRUNOFF" = 'off' ]; then
+if [ "$DRYRUNOFF" = 'true' ]; then
     DRYRUN=''
 fi
 

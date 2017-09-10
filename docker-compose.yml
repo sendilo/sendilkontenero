@@ -23,6 +23,23 @@ services:
     - "80"
     volumes:
     - ./letsencrypt/http:/usr/share/nginx/html:ro
+  eyeserver-proxy:
+    image: haproxy:alpine
+    restart: always
+    hostname: eyeserver-proxy
+    ports:
+      - "443"
+    volumes_from:
+      - haproxy-syslog
+    volumes:
+      - ./letsencrypt/etc:/etc/letsencrypt
+      - ./config/eyeserver-haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+  eyeserver:
+    image: bdevloed/eyeserver
+    restart: always
+    hostname: eyeserver
+    ports:
+    - "8000"
   sendilo:
     build: .
     restart: always
@@ -39,3 +56,4 @@ services:
     - DEBUG=solid:*,sendilo:*
     - NODE_TLS_REJECT_UNAUTHORIZED=0
     command: ["/solid/run/bin/sendilo", "start", "--verbose" ]
+

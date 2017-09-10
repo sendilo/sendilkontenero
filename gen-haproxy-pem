@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for DOMAINDIR in ./letsencrypt/etc/live/*; do
+  echo $DOMAINDIR
+  if [ -f $DOMAINDIR/haproxy.pem ]; then
+    rm $DOMAINDIR/haproxy.pem
+  fi
+  cat $DOMAINDIR/privkey.pem $DOMAINDIR/fullchain.pem > $DOMAINDIR/haproxy.pem
+done
