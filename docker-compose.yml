@@ -1,28 +1,25 @@
 version: '2'
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy:latest
-    restart: always
+  haproxy:
+    image: haproxy:alpine
+    hostname: haproxy
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./_certs/:/etc/nginx/certs:ro
-      - ./_logs/:/var/log/nginx
-      - ./_proxy/proxy.conf:/etc/nginx/proxy.conf
-      - ./_proxy/vhost.d:/etc/nginx/vhost.d
-      - /usr/share/nginx/html
-    environment:
-      - DEFAULT_HOST=${SENDILO_HOSTNAME}
-  proxy-companion:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    restart: always
-    volumes:
-      - ./_certs:/etc/nginx/certs:rw
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
-      - nginx-proxy
+      - haproxy-syslog
+    volumes:
+      - ./config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+  haproxy-syslog:
+    image: outstand/syslog-ng-stdout:latest
+  http:
+    image: nginx:alpine
+    restart: always
+    hostname: http
+    expose:
+    - "80"
+    volumes:
+    - ./letsencrypt/http:/usr/share/nginx/html:ro
   sendilo:
     build: .
     restart: always
@@ -30,16 +27,12 @@ services:
     ports:
     - "443"
     volumes:
-    - ./_certs:/solid/certs:ro
-    - ./_data:/solid/data
-    - ./_config:/solid/config
-    - ./_db:/solid/db
-    - ./config.json:/solid/run/config.json:ro
+    - ./letsencrypt/etc:/solid/certs:ro
+    - ./config/config.json:/solid/run/config.json:ro
+    - ./solid/config:/solid/config
+    - ./solid/data:/solid/data
+    - ./solid/db:/solid/db
     environment:
-    - VIRTUAL_HOST=${SENDILO_HOSTNAME}
-    - VIRTUAL_PROTO=https
-    - VIRTUAL_PORT=443
-    - LETSENCRYPT_HOST=${SENDILO_HOSTNAME}
-    - LETSENCRYPT_EMAIL=${SENDILO_EMAIL}
     - DEBUG=solid:*,sendilo:*
+    - NODE_TLS_REJECT_UNAUTHORIZED=0
     command: ["/solid/run/bin/sendilo", "start", "--verbose" ]

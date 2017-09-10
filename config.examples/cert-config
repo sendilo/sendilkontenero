@@ -1,0 +1,2 @@
+LETSENCRYPT_EMAIL=info@example.com
+LETSENCRYPT_DOMAIN=example.com

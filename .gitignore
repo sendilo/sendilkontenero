@@ -1,3 +1,11 @@
+/config/*
+/letsencrypt/etc/*
+/letsencrypt/http/*
+/logs/*
+/solid/config/*
+/solid/data/*
+/solid/db/*
+
+!/**/.gitkeep
+
 .vscode
-.env
-config.json

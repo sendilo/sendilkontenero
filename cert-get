@@ -1,0 +1,28 @@
+#!/bin/bash
+
+. ./config/cert-config
+
+if [ -z "$LETSENCRYPT_EMAIL" ] || [ -z "$LETSENCRYPT_DOMAIN" ] ; then
+    echo "LETSENCRYPT_EMAIL or LETSENCRYPT_DOMAIN not set in ./config/cert-config or in ENV."
+    exit 1
+fi
+
+DRYRUN=--dry-run
+if [ "$DRYRUNOFF" = 'off' ]; then
+    DRYRUN=''
+fi
+
+PWD=`pwd`
+
+docker container run \
+       --rm -it \
+       -v $PWD/letsencrypt/etc:/etc/letsencrypt \
+       -v $PWD/letsencrypt/http:/var/www \
+       -v $PWD/logs/:/var/log/letsencrypt \
+       certbot/certbot certonly \
+            --agree-tos \
+            $DRYRUN \
+            --webroot -w /var/www \
+            -n \
+            -m $LETSENCRYPT_EMAIL \
+            -d $LETSENCRYPT_DOMAIN

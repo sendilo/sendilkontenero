@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DIR=`pwd`
+
+docker container run \
+       --rm -it \
+       -v $DIR/letsencrypt/etc:/etc/letsencrypt \
+       -v $DIR/letsencrypt/http:/var/www \
+       certbot/certbot renew
+
