@@ -54,6 +54,4 @@ services:
     - ./solid/db:/solid/db
     environment:
     - DEBUG=solid:*,sendilo:*
-    - NODE_TLS_REJECT_UNAUTHORIZED=0
-    command: ["/solid/run/bin/sendilo", "start", "--verbose" ]
 
