@@ -41,7 +41,7 @@ services:
     ports:
     - "8000"
   sendilo:
-    image: sendilkontenero
+    image: sendilo/sendilkontenero
     restart: always
     hostname: sendilo
     ports:
