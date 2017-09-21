@@ -1,6 +1,6 @@
 # sendilkontenero
 
-docker file and composer for sendilo
+docker file and composer for TCP proxy with sendilo - wrapper of [node-solid-server](https://github.com/solid/node-solid-server) with custom middleware.
 
 ## contains
 
